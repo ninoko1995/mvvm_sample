@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:mvvm_sample/ui/home_view_model.dart';
+import 'package:mvvm_sample/provider/counter_provider.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({Key? key, required this.title}) : super(key: key);
@@ -9,9 +9,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => HomeViewModel(),
-      child: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
@@ -26,23 +24,22 @@ class HomeView extends StatelessWidget {
               const Text(
                 'You have pushed the button this many times:',
               ),
-              Consumer<HomeViewModel>(
-                builder: (context, homeViewModel, _) => Text(
-                  context.select((HomeViewModel homeViewModel) => homeViewModel.value.toString()),
+              Consumer(
+                builder: (context, watch, child) => Text(
+                  watch(homeViewModelProvider).toString(),
                   style: Theme.of(context).textTheme.headline4,
                 ),
               ),
             ],
           ),
         ),
-        floatingActionButton: Consumer<HomeViewModel>(
-          builder: (context, homeViewModel, _) => FloatingActionButton(
-            onPressed: () => context.read<HomeViewModel>().incrementCounter(),
+        floatingActionButton: Consumer(
+          builder: (context, watch, child) => FloatingActionButton(
+            onPressed: () => context.read(homeViewModelProvider.notifier).incrementCounter(),
             tooltip: 'Increment',
             child: const Icon(Icons.add),
           ),
         ),
-      ),
     );
   }
 }
