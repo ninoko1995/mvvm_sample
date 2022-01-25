@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:mvvm_sample/provider/counter_provider.dart';
 
-class HomeView extends HookWidget {
+class HomeView extends HookConsumerWidget {
   const HomeView({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  Widget build(BuildContext context) {
-    final _count = useProvider(homeViewModelProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _count = ref.watch(homeViewModelProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -35,7 +34,7 @@ class HomeView extends HookWidget {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => context.read(homeViewModelProvider.notifier).incrementCounter(),
+          onPressed: () => ref.read(homeViewModelProvider.notifier).incrementCounter(),
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),
