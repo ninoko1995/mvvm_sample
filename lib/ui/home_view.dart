@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key, required this.title}) : super(key: key);
@@ -17,6 +18,15 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
+  final Widget _widget = Center(
+      child: Consumer<int>(
+        builder: (context, value, _) => Text(
+          value.toString(),
+          style: Theme.of(context).textTheme.headline4,
+        ),
+      )
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,10 +44,7 @@ class _HomeViewState extends State<HomeView> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Provider<int>.value(value: _counter, child: _widget),
           ],
         ),
       ),
