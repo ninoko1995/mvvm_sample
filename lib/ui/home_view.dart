@@ -9,7 +9,7 @@ class HomeView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final _count = ref.watch(homeViewModelProvider);
+    final _counter = ref.watch(homeViewModelProvider);
 
     return Scaffold(
         appBar: AppBar(
@@ -27,7 +27,7 @@ class HomeView extends HookConsumerWidget {
                 'You have pushed the button this many times:',
               ),
               Text(
-                  _count.toString(),
+                  _counter.count.toString(),
                   style: Theme.of(context).textTheme.headline4,
                 ),
             ],
